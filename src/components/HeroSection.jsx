@@ -30,7 +30,7 @@ export default function HeroSection() {
           },
           body: JSON.stringify({
             ...formData,
-            frontEndClient: "Shine_nutrition",
+            frontEndClient: "Monash",
           }),
         }
       );

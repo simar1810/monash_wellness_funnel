@@ -75,13 +75,14 @@ export default function PaymentBanner() {
 
   const createOrder = async () => {
     try {
+      console.log("Creating order with amount:", 999); // Send amount in rupees
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/razorpay/create-order`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: 99900, // ₹999 in paise
+            amount: 999, // ₹999 in rupees (backend will multiply by 100)
             note: { client: "Monash" },
             type: "Monash",
           }),
@@ -89,10 +90,19 @@ export default function PaymentBanner() {
       );
 
       if (!res.ok) {
-        throw new Error("Failed to create order");
+        const errorText = await res.text();
+        console.error("Order creation failed:", res.status, errorText);
+        throw new Error(`Failed to create order: ${res.status} - ${errorText}`);
       }
 
-      return await res.json();
+      const orderData = await res.json();
+      console.log("Order created successfully:", orderData);
+
+      // Check if the response has a data property (common API pattern)
+      const order = orderData.data || orderData;
+      console.log("Extracted order:", order);
+
+      return order;
     } catch (error) {
       console.error("Error creating order:", error);
       throw error;
@@ -101,26 +111,73 @@ export default function PaymentBanner() {
 
   const verifyPayment = async (paymentData) => {
     try {
+      // Log the payment data for debugging
+      console.log("Payment data received:", paymentData);
+
+      // Validate that at least payment ID is present
+      if (!paymentData.razorpay_payment_id) {
+        throw new Error("Missing payment ID");
+      }
+
+      // Check if we have all required parameters for signature verification
+      const hasAllParams =
+        paymentData.razorpay_order_id &&
+        paymentData.razorpay_payment_id &&
+        paymentData.razorpay_signature;
+
+      if (!hasAllParams) {
+        console.warn(
+          "Missing signature parameters, payment may need manual verification"
+        );
+        alert(
+          "Payment received! Your payment ID is: " +
+            paymentData.razorpay_payment_id +
+            "\n\nPlease contact support with this payment ID for manual verification."
+        );
+        // Reset form
+        setFormData({ name: "", email: "", phoneNumber: "" });
+        setShowForm(false);
+        return;
+      }
+
+      // Log what we're sending to the backend
+      const verificationPayload = {
+        name: formData.name,
+        email: formData.email || null,
+        phoneNumber: formData.phoneNumber || null,
+        clientId: "Monash",
+        frontEndClient: "Monash",
+        razorpay_order_id: paymentData.razorpay_order_id,
+        razorpay_payment_id: paymentData.razorpay_payment_id,
+        razorpay_signature: paymentData.razorpay_signature,
+        amount: 999, // Amount in rupees (backend will handle conversion)
+      };
+
+      console.log("Sending verification payload:", verificationPayload);
+
       const verifyRes = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/razorpay/verify-order`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email || null,
-            phoneNumber: formData.phoneNumber || null,
-            clientId: "Monash",
-            frontEndClient: "Monash",
-            razorpay_order_id: paymentData.razorpay_order_id,
-            razorpay_payment_id: paymentData.razorpay_payment_id,
-            razorpay_signature: paymentData.razorpay_signature,
-            amount: 999,
-          }),
+          body: JSON.stringify(verificationPayload),
         }
       );
 
+      if (!verifyRes.ok) {
+        const errorText = await verifyRes.text();
+        console.error(
+          "Verification request failed:",
+          verifyRes.status,
+          errorText
+        );
+        throw new Error(
+          `Verification failed: ${verifyRes.status} - ${errorText}`
+        );
+      }
+
       const data = await verifyRes.json();
+      console.log("Verification response:", data);
 
       if (data.success) {
         alert(
@@ -153,26 +210,78 @@ export default function PaymentBanner() {
     }
 
     if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {
+      console.error("Razorpay key not configured");
       alert("Payment configuration error. Please contact support.");
       return;
     }
+
+    console.log(
+      "Razorpay key configured:",
+      !!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+    );
 
     setIsLoading(true);
 
     try {
       const order = await createOrder();
+      console.log("Order details for Razorpay:", {
+        id: order.id,
+        amount: order.amount,
+        currency: order.currency,
+      });
+
+      // Check if order has required fields
+      if (!order.id || !order.amount) {
+        console.error("Invalid order response:", order);
+        throw new Error("Failed to create valid order");
+      }
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
-        currency: order.currency,
+        currency: order.currency || "INR",
         name: "Monash Fitness",
         description: "Premium Fitness Community Membership",
         image: "/logo.png",
         order_id: order.id,
         handler: async function (response) {
-          await verifyPayment(response);
-          setIsLoading(false);
+          console.log("Razorpay response:", response);
+          console.log("Response keys:", Object.keys(response));
+          console.log("razorpay_order_id:", response.razorpay_order_id);
+          console.log("razorpay_payment_id:", response.razorpay_payment_id);
+          console.log("razorpay_signature:", response.razorpay_signature);
+
+          // Check if we have at least the payment ID
+          if (!response.razorpay_payment_id) {
+            console.error("No payment ID received:", response);
+            alert(
+              "Payment verification failed: No payment ID received. Please try again."
+            );
+            setIsLoading(false);
+            return;
+          }
+
+          // If we're missing order_id or signature, we'll try to verify with just the payment ID
+          // This is a fallback for cases where the order_id might be stored in the order object
+          const paymentData = {
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id || order?.id, // Use order.id as fallback
+            razorpay_signature: response.razorpay_signature || null,
+          };
+
+          console.log("Payment data to verify:", paymentData);
+
+          try {
+            await verifyPayment(paymentData);
+          } catch (error) {
+            console.error("Error in payment verification:", error);
+            alert(
+              "Payment verification failed. Please contact support with payment ID: " +
+                response.razorpay_payment_id
+            );
+          } finally {
+            setIsLoading(false);
+          }
         },
         prefill: {
           name: formData.name,
@@ -180,7 +289,7 @@ export default function PaymentBanner() {
           contact: formData.phoneNumber,
         },
         notes: {
-          membership_type: "fit_india_community",
+          membership_type: "Monash",
           validity: "lifetime",
         },
         theme: {
@@ -195,6 +304,16 @@ export default function PaymentBanner() {
 
       // @ts-ignore
       const rzp = new window.Razorpay(options);
+
+      // Add error handling for Razorpay
+      rzp.on("payment.failed", function (response) {
+        console.error("Payment failed:", response.error);
+        alert(
+          `Payment failed: ${response.error.description || "Unknown error"}`
+        );
+        setIsLoading(false);
+      });
+
       rzp.open();
     } catch (error) {
       console.error("Error initiating payment:", error);
