@@ -88,7 +88,7 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start place-items-center mx-auto max-w-5xl">
            <div className="relative w-full aspect-video min-h-[315px] bg-[var(--muted)] rounded-lg overflow-hidden">
             <iframe
-              src="https://drive.google.com/file/d/1rwEA0EZNdwMjs9ygEqF_I3_GtWmTrwsk/preview"
+              src=""
               className="absolute top-0 left-0 w-full h-full"
             ></iframe>
           </div>
