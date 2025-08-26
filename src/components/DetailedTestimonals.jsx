@@ -44,7 +44,7 @@ export default function DetailedTestimonials() {
 
   return (
     <section className="w-full py-12 bg-green-50">
-      <div className="container px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Carousel */}
         <div className="relative w-full max-w-5xl mx-auto h-[350px] overflow-hidden">
           <AnimatePresence mode="wait">
