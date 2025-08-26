@@ -52,11 +52,11 @@ export default function HeroSection() {
         {/* Logo */}
         <div className="flex justify-center items-center mb-8">
           <Image
-            src="/logo.png"
+            src="/Monash_Wellness_logo-removebg-preview.png"
             alt="Logo"
-            width={180}
-            height={180}
-            className="h-20 w-20 md:h-28 md:w-28 rounded-lg"
+            width={200}
+            height={200}
+            className="h-20 w-20 md:h-40 md:w-40 rounded-lg"
           />
         </div>
 
