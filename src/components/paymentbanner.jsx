@@ -34,7 +34,6 @@ export default function PaymentBanner() {
     script.async = true;
     script.onload = () => setScriptLoaded(true);
     script.onerror = () => {
-      console.error("Failed to load Razorpay script");
       alert("Failed to load payment gateway. Please refresh and try again.");
     };
     document.body.appendChild(script);
@@ -75,14 +74,13 @@ export default function PaymentBanner() {
 
   const createOrder = async () => {
     try {
-      console.log("Creating order with amount:", 999); // Send amount in rupees
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/razorpay/create-order`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: 999, // ₹999 in rupees (backend will multiply by 100)
+            amount: 499, // ₹999 in rupees (backend will multiply by 100)
             note: { client: "Monash" },
             type: "Monash",
           }),
@@ -91,29 +89,22 @@ export default function PaymentBanner() {
 
       if (!res.ok) {
         const errorText = await res.text();
-        console.error("Order creation failed:", res.status, errorText);
         throw new Error(`Failed to create order: ${res.status} - ${errorText}`);
       }
 
       const orderData = await res.json();
-      console.log("Order created successfully:", orderData);
 
       // Check if the response has a data property (common API pattern)
       const order = orderData.data || orderData;
-      console.log("Extracted order:", order);
 
       return order;
     } catch (error) {
-      console.error("Error creating order:", error);
       throw error;
     }
   };
 
   const verifyPayment = async (paymentData) => {
     try {
-      // Log the payment data for debugging
-      console.log("Payment data received:", paymentData);
-
       // Validate that at least payment ID is present
       if (!paymentData.razorpay_payment_id) {
         throw new Error("Missing payment ID");
@@ -126,9 +117,6 @@ export default function PaymentBanner() {
         paymentData.razorpay_signature;
 
       if (!hasAllParams) {
-        console.warn(
-          "Missing signature parameters, payment may need manual verification"
-        );
         alert(
           "Payment received! Your payment ID is: " +
             paymentData.razorpay_payment_id +
@@ -140,7 +128,6 @@ export default function PaymentBanner() {
         return;
       }
 
-      // Log what we're sending to the backend
       const verificationPayload = {
         name: formData.name,
         email: formData.email || null,
@@ -150,10 +137,8 @@ export default function PaymentBanner() {
         razorpay_order_id: paymentData.razorpay_order_id,
         razorpay_payment_id: paymentData.razorpay_payment_id,
         razorpay_signature: paymentData.razorpay_signature,
-        amount: 999, // Amount in rupees (backend will handle conversion)
+        amount: 499, // Amount in rupees (backend will handle conversion)
       };
-
-      console.log("Sending verification payload:", verificationPayload);
 
       const verifyRes = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/razorpay/verify-order`,
@@ -166,18 +151,12 @@ export default function PaymentBanner() {
 
       if (!verifyRes.ok) {
         const errorText = await verifyRes.text();
-        console.error(
-          "Verification request failed:",
-          verifyRes.status,
-          errorText
-        );
         throw new Error(
           `Verification failed: ${verifyRes.status} - ${errorText}`
         );
       }
 
       const data = await verifyRes.json();
-      console.log("Verification response:", data);
 
       if (data.success) {
         alert(
@@ -192,7 +171,6 @@ export default function PaymentBanner() {
         );
       }
     } catch (error) {
-      console.error("Payment verification error:", error);
       alert("❌ Payment verification failed. Please contact support.");
     }
   };
@@ -210,29 +188,17 @@ export default function PaymentBanner() {
     }
 
     if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {
-      console.error("Razorpay key not configured");
       alert("Payment configuration error. Please contact support.");
       return;
     }
-
-    console.log(
-      "Razorpay key configured:",
-      !!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
-    );
 
     setIsLoading(true);
 
     try {
       const order = await createOrder();
-      console.log("Order details for Razorpay:", {
-        id: order.id,
-        amount: order.amount,
-        currency: order.currency,
-      });
 
       // Check if order has required fields
       if (!order.id || !order.amount) {
-        console.error("Invalid order response:", order);
         throw new Error("Failed to create valid order");
       }
 
@@ -245,15 +211,8 @@ export default function PaymentBanner() {
         image: "/logo.png",
         order_id: order.id,
         handler: async function (response) {
-          console.log("Razorpay response:", response);
-          console.log("Response keys:", Object.keys(response));
-          console.log("razorpay_order_id:", response.razorpay_order_id);
-          console.log("razorpay_payment_id:", response.razorpay_payment_id);
-          console.log("razorpay_signature:", response.razorpay_signature);
-
           // Check if we have at least the payment ID
           if (!response.razorpay_payment_id) {
-            console.error("No payment ID received:", response);
             alert(
               "Payment verification failed: No payment ID received. Please try again."
             );
@@ -269,12 +228,9 @@ export default function PaymentBanner() {
             razorpay_signature: response.razorpay_signature || null,
           };
 
-          console.log("Payment data to verify:", paymentData);
-
           try {
             await verifyPayment(paymentData);
           } catch (error) {
-            console.error("Error in payment verification:", error);
             alert(
               "Payment verification failed. Please contact support with payment ID: " +
                 response.razorpay_payment_id
@@ -307,7 +263,6 @@ export default function PaymentBanner() {
 
       // Add error handling for Razorpay
       rzp.on("payment.failed", function (response) {
-        console.error("Payment failed:", response.error);
         alert(
           `Payment failed: ${response.error.description || "Unknown error"}`
         );
@@ -316,7 +271,6 @@ export default function PaymentBanner() {
 
       rzp.open();
     } catch (error) {
-      console.error("Error initiating payment:", error);
       alert("Failed to initiate payment. Please try again.");
       setIsLoading(false);
     }
@@ -332,29 +286,39 @@ export default function PaymentBanner() {
 
   const features = [
     {
-      icon: <Heart className="w-5 h-5" />,
-      text: "Personalized Diet & Fitness Plans",
-      highlight: "Tailored for you",
-    },
-    {
-      icon: <Zap className="w-5 h-5" />,
-      text: "Daily Live Workouts",
-      highlight: "Interactive sessions",
-    },
-    {
-      icon: <Users className="w-5 h-5" />,
-      text: "1-on-1 Counselling",
-      highlight: "Expert guidance",
+      icon: <Star className="w-5 h-5" />,
+      text: "11 Days Detox Challenge Top Performer Bonuses",
+      highlight: "Exclusive rewards for top achievers",
     },
     {
       icon: <Shield className="w-5 h-5" />,
-      text: "Telegram & WhatsApp Community",
-      highlight: "24/7 support",
+      text: "Money Back Guarantee",
+      highlight: "Risk-free commitment",
+    },
+    {
+      icon: <Heart className="w-5 h-5" />,
+      text: "Lifetime App Access",
+      highlight: "Access anytime, forever",
+    },
+    {
+      icon: <Zap className="w-5 h-5" />,
+      text: "Daily Live Sessions",
+      highlight: "Stay motivated every day",
     },
     {
       icon: <Star className="w-5 h-5" />,
-      text: "Lifetime Updates",
-      highlight: "Always current",
+      text: "2 Premium Live Sessions",
+      highlight: "Special expert-led events",
+    },
+    {
+      icon: <Users className="w-5 h-5" />,
+      text: "1:1 Personalized Support",
+      highlight: "Direct guidance for your goals",
+    },
+    {
+      icon: <Shield className="w-5 h-5" />,
+      text: "WhatsApp Community Support",
+      highlight: "Connect & grow together",
     },
   ];
 
@@ -399,164 +363,68 @@ export default function PaymentBanner() {
         </div>
 
         {/* Main Card */}
-        <Card className="relative bg-white/80 backdrop-blur-sm border-0 shadow-2xl shadow-emerald-100/50 p-8 md:p-12 rounded-3xl overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.05),transparent_50%)] pointer-events-none" />
+        <Card className="relative bg-[#F8FCF8] border-0 shadow-2xl shadow-emerald-100/50 p-0 rounded-3xl overflow-hidden">
+          <div className="grid md:grid-cols-2 min-h-[600px]">
+            {/* Left Column - Pricing Section */}
+            <div className="bg-gradient-to-b from-[#008080] to-[#00C8C8] p-8 md:p-12 flex flex-col justify-between text-white relative overflow-hidden">
+              {/* Glass reflection effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/30 to-transparent pointer-events-none" />
+              <div className="absolute top-4 right-4 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none animate-pulse" />
+              <div className="absolute bottom-8 left-8 w-24 h-24 bg-white/15 rounded-full blur-lg pointer-events-none animate-pulse delay-1000" />
+              <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-white/8 rounded-full blur-lg pointer-events-none animate-pulse delay-500" />
+              <div className="absolute top-1/3 right-1/3 w-20 h-20 bg-white/12 rounded-full blur-md pointer-events-none animate-pulse delay-700" />
+              {/* Pricing */}
+              <div className="text-center relative z-10">
+                <div className="flex items-center justify-center gap-4 mb-6">
+                  <span className="text-6xl font-bold">₹499</span>
+                  <Badge className="bg-[#4CAF50] text-white border-0 px-3 py-1 rounded-full">
+                    Save 50%
+                  </Badge>
+                </div>
+                <div className="mb-8">
+                  <span className="text-4xl text-[#E0E0E0] line-through">
+                    ₹999
+                  </span>
+                </div>
 
-          <div className="relative">
-            {/* Pricing */}
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-4 mb-6">
-                <span className="text-2xl text-slate-400 line-through">
-                  ₹2,999
-                </span>
-                <span className="text-6xl font-bold text-slate-900">₹999</span>
-                <Badge className="bg-red-100 text-red-700 border-red-200 px-3 py-1">
-                  Save 67%
-                </Badge>
-              </div>
-              <p className="text-slate-600 text-lg">
-                One-time payment • Lifetime access • No hidden fees
-              </p>
-            </div>
-
-            {/* Features Grid */}
-            <div className="grid md:grid-cols-2 gap-6 mb-12">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex items-start gap-4 p-4 rounded-2xl transition-all duration-300 hover:bg-emerald-50/50 hover:scale-[1.02]"
-                >
-                  <div className="flex-shrink-0 w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 group-hover:bg-emerald-200 transition-colors">
-                    {feature.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-1 flex items-center gap-2">
-                      <Check className="w-4 h-4 text-emerald-500" />
-                      {feature.text}
-                    </h3>
-                    <p className="text-slate-600 text-sm">
-                      {feature.highlight}
-                    </p>
+                {/* Key Benefits */}
+                <div className="space-y-4 mb-8">
+                  <div className="border-t border-dashed border-white/30 pt-4">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-5 h-5 bg-white rounded-sm flex items-center justify-center">
+                        <Check className="w-3 h-3 text-[#008080]" />
+                      </div>
+                      <span className="text-lg">One Time Payment</span>
+                    </div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-5 h-5 bg-white rounded-sm flex items-center justify-center">
+                        <Check className="w-3 h-3 text-[#008080]" />
+                      </div>
+                      <span className="text-lg">Lifetime Access</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 bg-white rounded-sm flex items-center justify-center">
+                        <Check className="w-3 h-3 text-[#008080]" />
+                      </div>
+                      <span className="text-lg">No Hidden Fees</span>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {/* User Form */}
-            {showForm && (
-              <div className="mb-8 p-6 bg-slate-50 rounded-2xl border border-slate-200">
-                <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                  <User className="w-5 h-5" />
-                  Your Details
-                </h3>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div>
-                    <Label
-                      htmlFor="name"
-                      className="text-sm font-medium text-slate-700"
-                    >
-                      Full Name *
-                    </Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Enter your full name"
-                      className="mt-1"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label
-                      htmlFor="email"
-                      className="text-sm font-medium text-slate-700"
-                    >
-                      Email Address
-                    </Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="your@email.com"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <Label
-                      htmlFor="phoneNumber"
-                      className="text-sm font-medium text-slate-700"
-                    >
-                      Phone Number
-                    </Label>
-                    <Input
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      type="tel"
-                      value={formData.phoneNumber}
-                      onChange={handleInputChange}
-                      placeholder="10-digit number"
-                      maxLength={10}
-                      className="mt-1"
-                    />
-                  </div>
-                </div>
-                <p className="text-xs text-slate-500 mt-2">
-                  * Name is required. Please provide either email or phone
-                  number.
-                </p>
               </div>
-            )}
 
-            {/* Call to Action */}
-            <div className="text-center">
-              {!showForm ? (
+              {/* CTA Button */}
+              <div className="text-center relative z-10">
                 <Button
                   onClick={() => setShowForm(true)}
-                  className="group relative bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 text-white px-12 py-6 rounded-2xl text-xl font-bold shadow-xl shadow-emerald-200/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-300/50 overflow-hidden min-w-[300px]"
+                  className="w-full bg-gradient-to-r from-[#80D8D8] to-[#B2EBF2] hover:from-[#70C8C8] hover:to-[#A2DBE2] text-white px-8 py-4 rounded-2xl text-lg font-bold shadow-lg transition-all duration-300 hover:scale-105"
                 >
-                  <span className="relative z-10 flex items-center gap-3">
-                    <User className="w-6 h-6" />
-                    Get Started - Join Now
-                    <Star className="w-6 h-6" />
-                  </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                  Get Started - Join Now
                 </Button>
-              ) : (
-                <Button
-                  onClick={openRazorpay}
-                  disabled={isLoading || !scriptLoaded}
-                  className="group relative bg-gradient-to-r md:ml-0 -ml-10 from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 text-white px-12 py-6 rounded-2xl text-xl font-bold shadow-xl shadow-emerald-200/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-300/50 overflow-hidden min-w-[300px]"
-                >
-                  <span className="relative z-10 flex items-center gap-3">
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="w-6 h-6 animate-spin" />
-                        Processing Payment...
-                        <Loader2 className="w-6 h-6 animate-spin" />
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-6 h-6" />
-                        Pay ₹999 & Join Now
-                        <Star className="w-6 h-6" />
-                      </>
-                    )}
-                  </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out group-disabled:hidden" />
-                </Button>
-              )}
+              </div>
 
-              {!scriptLoaded && (
-                <p className="mt-2 text-sm text-slate-500">
-                  Loading payment gateway...
-                </p>
-              )}
-
-              <div className="mt-6 flex items-center justify-center gap-6 text-sm text-slate-600">
+              {/* Footer Info */}
+              <div className="flex items-center justify-center gap-6 text-sm mt-6 relative z-10">
                 <div className="flex items-center gap-2">
                   <Shield className="w-4 h-4" />
                   <span>Secure Payment</span>
@@ -571,8 +439,137 @@ export default function PaymentBanner() {
                 </div>
               </div>
             </div>
+
+            {/* Right Column - Features Section */}
+            <div className="bg-white p-8 md:p-12">
+              <h2 className="text-3xl font-bold text-[#333333] mb-8">
+                Whats in it?
+              </h2>
+
+              <div className="space-y-6">
+                {features.map((feature, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 border-2 border-[#80D8D8] rounded-xl flex items-center justify-center text-[#008080]">
+                      {feature.icon}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-[#333333] mb-1 flex items-center gap-2">
+                        <Check className="w-4 h-4 text-[#008080]" />
+                        {feature.text}
+                      </h3>
+                      <p className="text-[#666666] text-sm">
+                        {feature.highlight}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </Card>
+
+        {/* User Form Modal */}
+        {showForm && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+              <h3 className="text-xl font-semibold text-slate-900 mb-6 flex items-center gap-2">
+                <User className="w-5 h-5" />
+                Your Details
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <Label
+                    htmlFor="name"
+                    className="text-sm font-medium text-slate-700"
+                  >
+                    Full Name *
+                  </Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Enter your full name"
+                    className="mt-1"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label
+                    htmlFor="email"
+                    className="text-sm font-medium text-slate-700"
+                  >
+                    Email Address
+                  </Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="your@email.com"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label
+                    htmlFor="phoneNumber"
+                    className="text-sm font-medium text-slate-700"
+                  >
+                    Phone Number
+                  </Label>
+                  <Input
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    type="tel"
+                    value={formData.phoneNumber}
+                    onChange={handleInputChange}
+                    placeholder="10-digit number"
+                    maxLength={10}
+                    className="mt-1"
+                  />
+                </div>
+              </div>
+              <p className="text-xs text-slate-500 mt-4">
+                * Name is required. Please provide either email or phone number.
+              </p>
+
+              <div className="flex gap-3 mt-6">
+                <Button
+                  onClick={() => setShowForm(false)}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={openRazorpay}
+                  disabled={isLoading || !scriptLoaded}
+                  className="flex-1 bg-gradient-to-r from-[#008080] to-[#00C8C8] hover:from-[#006666] hover:to-[#00A8A8] text-white"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4 mr-2" />
+                      Pay ₹999 & Join Now
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {!scriptLoaded && (
+                <p className="mt-2 text-sm text-slate-500 text-center">
+                  Loading payment gateway...
+                </p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Trust indicators */}
         <div className="mt-12 text-center">

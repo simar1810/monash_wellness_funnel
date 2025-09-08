@@ -1,9 +1,11 @@
+import BonusSection from "@/components/BonusSection";
 import ClientTestimonialsGrid from "@/components/ClientTestimonials";
 import ConsultationSection from "@/components/ConsultationSecction";
 import DetailedTestimonials from "@/components/DetailedTestimonals";
 import HeroSection from "@/components/HeroSection";
 import PaymentBanner from "@/components/paymentbanner";
 import SocialProofSection from "@/components/SocialProof";
+import VideoTestimonials from "@/components/VideoTestimonials";
 
 export default function HomePage() {
   return (
@@ -11,7 +13,9 @@ export default function HomePage() {
       <HeroSection />
       <DetailedTestimonials />
       <SocialProofSection />
-      <PaymentBanner/>
+      <PaymentBanner />
+      <BonusSection/>
+      <VideoTestimonials />
       <ClientTestimonialsGrid />
       <ConsultationSection />
     </div>
