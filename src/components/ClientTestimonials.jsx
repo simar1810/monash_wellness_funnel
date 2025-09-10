@@ -2,27 +2,25 @@ import Image from "next/image";
 
 const testimonials = [
   {
-    name: "Vikas",
-    date: "2024-05-17",
-    image: null, // Replace with actual image or avatar path
-    rating: 5,
-    text: "“Monash Wellness ka support aur simple plans ne meri life change kar di.”",
-  },
-  {
-    name: "Manpreet",
-    date: "2024-05-16",
-    image: null,
-    initials: "N",
-    rating: 5,
-    text: "“Main busy schedule ke chakkar mein apni health neglect kar raha tha. Ab sab manageable ho gaya hai.”",
-  },
-
-  {
-    name: "Anjali",
-    date: "2024-05-08",
+    name: "Pallavi Kale",
+    date: "",
     image: null,
     rating: 5,
-    text: "“Itna effective aur personalised diet plan pehli baar mila.”",
+    text: "I was struggling with hormonal imbalance and constant fatigue. After joining Monali's wellness program, my energy levels skyrocketed, and I lost 8 kg in just two months! The best part is how sustainable and family-friendly the plan is. My sleep has improved, I feel lighter, and my skin is glowing! Monali’s personal journey and practical tips made all the difference.",
+  },
+  {
+    name: "Vilas Lade",
+    date: "",
+    image: null,
+    rating: 5,
+    text: "High blood pressure and work stress were taking a toll on me. But with Ashutosh's mentorship and Monali's guidance on nutrition, I reversed my BP levels naturally. They don’t just offer diet plans – they focus on mindset, habits, and long-term wellness. I feel more productive and calm at work. Forever grateful!",
+  },
+  {
+    name: "Manisha Ramteke",
+    date: "",
+    image: null,
+    rating: 5,
+    text: "PCOS had made my life miserable — irregular cycles, weight gain, mood swings. But Monali changed everything for me! With her structured support, I’ve lost 10 kg, my periods are regular now, and migraines have vanished. She truly understands women’s issues and guides like a sister. Monash Wellness changed my life!",
   },
 ];
 
