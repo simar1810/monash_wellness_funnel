@@ -333,7 +333,7 @@ export default function PaymentBanner() {
   const totalValue = benefitItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <section className="relative py-20 px-4 overflow-hidden">
+  <section id="payment-banner" className="relative py-20 px-4 overflow-hidden">
       {/* Background with animated gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(16,185,129,0.1),rgba(5,150,105,0.05),transparent_60%)]" />
