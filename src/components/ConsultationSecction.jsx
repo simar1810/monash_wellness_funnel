@@ -65,7 +65,7 @@ export default function ConsultationSection() {
         <div className="text-center mb-12">
           <Link
             href="#highlight-buttons"
-            className="bg-black hover:bg-gray-800 text-[var(--accent-foreground)] px-8 py-4 rounded-md text-lg font-semibold shadow-lg"
+            className="block w-full sm:inline-block sm:w-auto bg-black hover:bg-gray-800 text-[var(--accent-foreground)] px-6 sm:px-8 py-4 rounded-md text-base sm:text-lg font-semibold shadow-lg text-center"
           >
             Start Your Personalized Health Plan Now
           </Link>

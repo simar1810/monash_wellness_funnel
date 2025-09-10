@@ -1,9 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CheckCircle, Loader2, Zap } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { CheckCircle, Loader2, Zap, User } from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function HeroSection() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,28 @@ export default function HeroSection() {
   const [isLoading, setIsLoading] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [mobileStep, setMobileStep] = useState(1);
+  const formSectionRef = useRef(null);
+
+  const benefitItems = [
+    {
+      label: "Live Classes (6 × ₹350)................",
+      price: 2100,
+      subtitle: "Access to Strenght, Zumba, Pilates, Yoga etc",
+    },
+    {
+      label: "Fitness Assessment......................",
+      price: 1950,
+      subtitle: "Blueprint for your best physique",
+    },
+    {
+      label: "Accountability Partner...................",
+      price: 597,
+      subtitle: "To guide you every step of the way",
+    },
+  ];
+
+  const totalValue = benefitItems.reduce((sum, item) => sum + item.price, 0);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -269,8 +292,9 @@ export default function HeroSection() {
       return;
     }
 
-    // Show payment modal instead of direct registration
+    // Show payment modal and reset step
     setShowPaymentModal(true);
+    setMobileStep(1);
   };
 
   return (
@@ -290,7 +314,7 @@ export default function HeroSection() {
         {/* Top Banner */}
         <div className="md:-mt-45">
           <div className="bg-[var(--secondary)] text-[var(--secondary-foreground)] text-center p-4 rounded-2xl mb-8 max-w-4xl mx-auto">
-            <p className="text-xl md:text-base font-semibold">
+            <p className="text-xl md:text-2xl font-semibold">
               One decision. 11 days. A lighter, fresher YOU
             </p>
           </div>
@@ -302,13 +326,6 @@ export default function HeroSection() {
           </h1>
 
           {/* Highlight Buttons */}
-          <div className="w-full flex flex-col md:flex-row justify-center items-center gap-4 mb-12">
-            <Button className="bg-[var(--secondary)] hover:bg-[var(--accent)] text-[var(--accent-foreground)] p-[10px] w-[310px] h-[104px] rounded-[20px] text-3xl font-semibold shadow-lg">
-              Improve Your Health
-            </Button>
-
-        
-          </div>
         </div>
 
         {/* Video + Form */}
@@ -322,7 +339,7 @@ export default function HeroSection() {
 
           <div className="w-full bg-[var(--card)] p-6 md:p-8 rounded-lg shadow-lg border border-[var(--border)] text-left">
             <h2 className="text-xl md:text-2xl font-bold text-[var(--primary-foreground)] mb-6 text-center md:text-left">
-              Kindly fill the form for your Consultation.
+              Kindly fill the form to continue
             </h2>
             <form className="grid gap-4" onSubmit={handleSubmit}>
               <Input
@@ -351,12 +368,17 @@ export default function HeroSection() {
                   className="flex-1 border-l border-[var(--border)] focus:outline-none"
                 />
               </div>
-              <Button
-                type="submit"
-                className="w-full bg-[var(--secondary)] hover:bg-[var(--accent)] text-[var(--accent-foreground)] px-6 py-3 rounded-md text-lg font-semibold"
-              >
-                Continue to Payment
-              </Button>
+              <div className="relative w-full">
+                <Button
+                  type="submit"
+                  className="w-full bg-[var(--secondary)] hover:bg-[var(--accent)] text-[var(--accent-foreground)] px-6 py-3 relative rounded-md text-lg font-semibold"
+                >
+                  Buy Now
+                </Button>
+                <div className="px-3 absolute -top-2 -right-2 py-0.5 text-xs font-bold text-white bg-red-500 rounded-full shadow-md">
+                  Limited time offer
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -387,82 +409,169 @@ export default function HeroSection() {
         {/* Payment Modal */}
         {showPaymentModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
-              <h3 className="text-xl font-semibold text-slate-900 mb-6 text-center">
-                Complete Your Purchase
-              </h3>
-
-              <div className="text-center mb-6">
-                <div className="text-3xl font-bold text-slate-900 mb-2">
-                  ₹499
+            <div className="bg-white rounded-2xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row gap-8 relative">
+              {/* Cross button at top right */}
+              <button
+                onClick={() => {
+                  setShowPaymentModal(false);
+                  setMobileStep(1);
+                }}
+                className="absolute top-2 right-4 z-10 text-slate-500 hover:text-slate-900 text-3xl"
+                aria-label="Close"
+              >
+                &times;
+              </button>
+              {/* Left: Payment Details */}
+              <div
+                className={`${
+                  mobileStep === 1 ? "block" : "hidden"
+                } md:block flex-1 min-w-[300px] pr-8`}
+              >
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Here's everything you get for next 11 days
+                </h2>
+                <div className="border-t mt-2 w-full border-black/40 mb-2 border-[1px]" />
+                {benefitItems.map((item, idx) => (
+                  <div key={idx}>
+                    <div className="flex justify-between text-left ">
+                      <span className="text-lg font-semibold text-slate-500">
+                        {item.label}
+                      </span>
+                      <span className="text-lg font-semibold text-slate-900">
+                        ₹{item.price}
+                      </span>
+                    </div>
+                    {item.subtitle ? (
+                      <p className="text-sm text-slate-500 -mt-2">
+                        {item.subtitle}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-slate-500 -mt-2">
+                        Access to all premium content
+                      </p>
+                    )}
+                  </div>
+                ))}
+                <div className="mt-5 flex justify-center">
+                  <h1 className="text-lg font-semibold text-slate-900">
+                    Total Value: RS {totalValue}
+                  </h1>
                 </div>
-                <p className="text-slate-600">
-                  Premium Fitness Community Membership
+                <div className="mt-5 flex justify-center text-center">
+                  <h1 className="text-lg font-semibold text-slate-900">
+                    But today you pay <br /> only{" "}
+                    <span className="text-[#008080] items-center">RS 499</span>
+                  </h1>
+                </div>
+                {/* Mobile-only: proceed to details step */}
+                <div className="mt-6 md:hidden">
+                  <Button
+                    onClick={() => setMobileStep(2)}
+                    className="w-full bg-gradient-to-r from-[#008080] to-[#00C8C8] hover:from-[#006666] hover:to-[#00A8A8] text-white"
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
+              {/* Right: User Details */}
+              <div
+                ref={formSectionRef}
+                className={`${
+                  mobileStep === 2 ? "block" : "hidden"
+                } md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
+              >
+                <h3 className="text-xl font-semibold text-slate-900 mb-6 flex items-center gap-2">
+                  <User className="w-5 h-5" />
+                  Your Details
+                </h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label
+                      htmlFor="hs_name"
+                      className="text-sm font-medium text-slate-700"
+                    >
+                      Full Name *
+                    </Label>
+                    <Input
+                      id="hs_name"
+                      name="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Enter your full name"
+                      className="mt-1"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label
+                      htmlFor="hs_email"
+                      className="text-sm font-medium text-slate-700"
+                    >
+                      Email Address
+                    </Label>
+                    <Input
+                      id="hs_email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="your@email.com"
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label
+                      htmlFor="hs_phone"
+                      className="text-sm font-medium text-slate-700"
+                    >
+                      Phone Number
+                    </Label>
+                    <Input
+                      id="hs_phone"
+                      name="phoneNumber"
+                      type="tel"
+                      value={formData.phoneNumber}
+                      onChange={handleChange}
+                      placeholder="10-digit number"
+                      maxLength={10}
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+                <p className="text-xs text-slate-500 mt-4">
+                  * Name is required. Please provide either email or phone
+                  number.
                 </p>
-                <div className="mt-4 space-y-2 text-sm text-slate-600">
-                  <div className="flex items-center justify-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Lifetime Access</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Personalized Diet & Fitness Plans</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>1-on-1 Counselling</span>
-                  </div>
+                <div
+                  className={`flex gap-3 mt-6 ${
+                    mobileStep === 2 ? "flex" : "hidden"
+                  } md:flex`}
+                >
+                  <Button
+                    onClick={openRazorpay}
+                    disabled={isLoading || !scriptLoaded}
+                    className="flex-1 bg-gradient-to-r from-[#008080] to-[#00C8C8] hover:from-[#006666] hover:to-[#00A8A8] text-white"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="w-4 h-4 mr-2" />
+                        Pay ₹499 & Join Now
+                      </>
+                    )}
+                  </Button>
                 </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="text-sm">
-                  <strong>Name:</strong> {formData.name}
-                </div>
-                {formData.email && (
-                  <div className="text-sm">
-                    <strong>Email:</strong> {formData.email}
-                  </div>
-                )}
-                {formData.phoneNumber && (
-                  <div className="text-sm">
-                    <strong>Phone:</strong> +91 {formData.phoneNumber}
-                  </div>
+                {!scriptLoaded && (
+                  <p className="mt-2 text-sm text-slate-500 text-center">
+                    Loading payment gateway...
+                  </p>
                 )}
               </div>
-
-              <div className="flex gap-3 mt-6">
-                <Button
-                  onClick={() => setShowPaymentModal(false)}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={openRazorpay}
-                  disabled={isLoading || !scriptLoaded}
-                  className="flex-1 bg-gradient-to-r from-[#008080] to-[#00C8C8] hover:from-[#006666] hover:to-[#00A8A8] text-white"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      <Zap className="w-4 h-4 mr-2" />
-                      Pay ₹499 & Join Now
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              {!scriptLoaded && (
-                <p className="mt-2 text-sm text-slate-500 text-center">
-                  Loading payment gateway...
-                </p>
-              )}
             </div>
           </div>
         )}
