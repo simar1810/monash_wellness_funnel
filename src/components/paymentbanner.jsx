@@ -325,7 +325,7 @@ export default function PaymentBanner() {
   ];
 
   const benefitItems = [
-    { label: "Live Classes (6 × ₹350)................", price: 2100, subtitle: "Access to Strenght, Zumba, Pilates, Yoga etc" },
+    { label: "Live Classes (6 × ₹350)................", price: 2100, subtitle: "Access to strenght, Zumba, Pilates, Yoga etc" },
     { label: "Fitness Assessment......................", price: 1950, subtitle: "Blueprint for your best physique" },
     { label: "Accountability Partner...................", price: 597, subtitle: "To guide you every step of the way" },
   ];
@@ -394,7 +394,7 @@ export default function PaymentBanner() {
                 </div>
                 <div className="mb-8">
                   <span className="text-4xl text-[#E0E0E0] line-through">
-                    ₹999
+                    ₹1999
                   </span>
                 </div>
 
