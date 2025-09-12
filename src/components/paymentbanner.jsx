@@ -17,6 +17,7 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function PaymentBanner() {
   const [isLoading, setIsLoading] = useState(false);
@@ -121,8 +122,8 @@ export default function PaymentBanner() {
       if (!hasAllParams) {
         alert(
           "Payment received! Your payment ID is: " +
-            paymentData.razorpay_payment_id +
-            "\n\nPlease contact support with this payment ID for manual verification."
+          paymentData.razorpay_payment_id +
+          "\n\nPlease contact support with this payment ID for manual verification."
         );
         // Reset form
         setFormData({ name: "", email: "", phoneNumber: "" });
@@ -235,7 +236,7 @@ export default function PaymentBanner() {
           } catch (error) {
             alert(
               "Payment verification failed. Please contact support with payment ID: " +
-                response.razorpay_payment_id
+              response.razorpay_payment_id
             );
           } finally {
             setIsLoading(false);
@@ -333,7 +334,7 @@ export default function PaymentBanner() {
   const totalValue = benefitItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
-  <section id="payment-banner" className="relative py-20 px-4 overflow-hidden">
+    <section id="payment-banner" className="relative py-20 px-4 overflow-hidden">
       {/* Background with animated gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(16,185,129,0.1),rgba(5,150,105,0.05),transparent_60%)]" />
@@ -498,62 +499,21 @@ export default function PaymentBanner() {
               </button>
               {/* Left: Payment Details */}
               <div
-                className={`${
-                  mobileStep === 1 ? "block" : "hidden"
-                } md:block flex-1 min-w-[300px] pr-8`}
+                className={`${mobileStep === 1 ? "block" : "hidden"
+                  } md:block flex-1 min-w-[300px] pr-8 relative`}
               >
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Here's everything you get for next 11 days
-                </h2>
-                <div className="border-t mt-2 w-full border-black/40 mb-2 border-[1px]" />
-                {benefitItems.map((item, idx) => (
-                  <div key={idx}>
-                    <div className="flex justify-between text-left ">
-                      <span className="text-lg font-semibold text-slate-500">
-                        {item.label}
-                      </span>
-                      <span className="text-lg font-semibold text-slate-900">
-                        ₹{item.price}
-                      </span>
-                    </div>
-                    {item.subtitle ? (
-                      <p className="text-sm text-slate-500 -mt-2">
-                        {item.subtitle}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-slate-500 -mt-2">
-                        Access to all premium content
-                      </p>
-                    )}
-                  </div>
-                ))}
-                <div className="mt-5 flex justify-center">
-                  <h1 className="text-lg font-semibold text-slate-900">
-                    Total Value: RS {totalValue}
-                  </h1>
-                </div>
-                <div className="mt-5 flex justify-center text-center">
-                  <h1 className="text-lg font-semibold text-slate-900">
-                    But today you pay <br /> only{" "}
-                    <span className="text-[#008080] items-center">RS 499</span>
-                  </h1>
-                </div>
-                {/* Mobile-only: proceed to details step */}
-                <div className="mt-6 md:hidden">
-                  <Button
-                    onClick={() => setMobileStep(2)}
-                    className="w-full bg-gradient-to-r from-[#008080] to-[#00C8C8] hover:from-[#006666] hover:to-[#00A8A8] text-white"
-                  >
-                    Next
-                  </Button>
-                </div>
+                <Image
+                  alt=""
+                  src="/modalImage.png"
+                  className="min-h-full min-w-full"
+                  fill
+                />
               </div>
               {/* Right: User Details */}
               <div
                 ref={formSectionRef}
-                className={`${
-                  mobileStep === 2 ? "block" : "hidden"
-                } md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
+                className={`${mobileStep === 2 ? "block" : "hidden"
+                  } md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
               >
                 <h3 className="text-xl font-semibold text-slate-900 mb-6 flex items-center gap-2">
                   <User className="w-5 h-5" />
@@ -619,9 +579,8 @@ export default function PaymentBanner() {
                   number.
                 </p>
                 <div
-                  className={`flex gap-3 mt-6 ${
-                    mobileStep === 2 ? "flex" : "hidden"
-                  } md:flex`}
+                  className={`flex gap-3 mt-6 ${mobileStep === 2 ? "flex" : "hidden"
+                    } md:flex`}
                 >
                   <Button
                     onClick={openRazorpay}

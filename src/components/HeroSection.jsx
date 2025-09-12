@@ -127,8 +127,8 @@ export default function HeroSection() {
       if (!hasAllParams) {
         alert(
           "Payment received! Your payment ID is: " +
-            paymentData.razorpay_payment_id +
-            "\n\nPlease contact support with this payment ID for manual verification."
+          paymentData.razorpay_payment_id +
+          "\n\nPlease contact support with this payment ID for manual verification."
         );
         setFormData({ name: "", email: "", phoneNumber: "" });
         setShowPaymentModal(false);
@@ -235,7 +235,7 @@ export default function HeroSection() {
           } catch (error) {
             alert(
               "Payment verification failed. Please contact support with payment ID: " +
-                response.razorpay_payment_id
+              response.razorpay_payment_id
             );
           } finally {
             setIsLoading(false);
@@ -298,7 +298,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="w-full py-10 md:py-16 bg-green-100 text-center">
+    <section className="w-full py-10 md:py-16 bg-[#eeece0] text-center">
       <div className="max-w-screen-xl left mx-auto px-4 md:px-6">
         {/* Logo */}
         <div className="flex md:justify-start justify-center md:-left-10 md:-ml-35 items-center mb-7">
@@ -321,7 +321,7 @@ export default function HeroSection() {
 
           {/* Heading */}
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--primary-foreground)] mb-8 leading-tight">
-            See the glow, feel the difference in just days - Transform with our
+            See the glow, feel the difference in just 11 days - Transform with our
             ₹499 Detox Plan.
           </h1>
 
@@ -339,7 +339,7 @@ export default function HeroSection() {
 
           <div className="w-full bg-[var(--card)] p-6 md:p-8 rounded-lg shadow-lg border border-[var(--border)] text-left">
             <h2 className="text-xl md:text-2xl font-bold text-[var(--primary-foreground)] mb-6 text-center md:text-left">
-              Kindly fill the form to continue
+              Kindly fill the form to grab free personalised one to one consultation
             </h2>
             <form className="grid gap-4" onSubmit={handleSubmit}>
               <Input
@@ -423,62 +423,21 @@ export default function HeroSection() {
               </button>
               {/* Left: Payment Details */}
               <div
-                className={`${
-                  mobileStep === 1 ? "block" : "hidden"
-                } md:block flex-1 min-w-[300px] pr-8`}
+                className={`${mobileStep === 1 ? "block" : "hidden"
+                  } md:block flex-1 min-w-[300px] pr-8 relative`}
               >
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Here's everything you get for next 11 days
-                </h2>
-                <div className="border-t mt-2 w-full border-black/40 mb-2 border-[1px]" />
-                {benefitItems.map((item, idx) => (
-                  <div key={idx}>
-                    <div className="flex justify-between text-left ">
-                      <span className="text-lg font-semibold text-slate-500">
-                        {item.label}
-                      </span>
-                      <span className="text-lg font-semibold text-slate-900">
-                        ₹{item.price}
-                      </span>
-                    </div>
-                    {item.subtitle ? (
-                      <p className="text-sm text-slate-500 -mt-2">
-                        {item.subtitle}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-slate-500 -mt-2">
-                        Access to all premium content
-                      </p>
-                    )}
-                  </div>
-                ))}
-                <div className="mt-5 flex justify-center">
-                  <h1 className="text-lg font-semibold text-slate-900">
-                    Total Value: RS {totalValue}
-                  </h1>
-                </div>
-                <div className="mt-5 flex justify-center text-center">
-                  <h1 className="text-lg font-semibold text-slate-900">
-                    But today you pay <br /> only{" "}
-                    <span className="text-[#008080] items-center">RS 499</span>
-                  </h1>
-                </div>
-                {/* Mobile-only: proceed to details step */}
-                <div className="mt-6 md:hidden">
-                  <Button
-                    onClick={() => setMobileStep(2)}
-                    className="w-full bg-gradient-to-r from-[#008080] to-[#00C8C8] hover:from-[#006666] hover:to-[#00A8A8] text-white"
-                  >
-                    Next
-                  </Button>
-                </div>
+                <Image
+                  alt=""
+                  src="/modalImage.png"
+                  className="min-h-full min-w-full"
+                  fill
+                />
               </div>
               {/* Right: User Details */}
               <div
                 ref={formSectionRef}
-                className={`${
-                  mobileStep === 2 ? "block" : "hidden"
-                } md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
+                className={`${mobileStep === 2 ? "block" : "hidden"
+                  } md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
               >
                 <h3 className="text-xl font-semibold text-slate-900 mb-6 flex items-center gap-2">
                   <User className="w-5 h-5" />
@@ -544,9 +503,8 @@ export default function HeroSection() {
                   number.
                 </p>
                 <div
-                  className={`flex gap-3 mt-6 ${
-                    mobileStep === 2 ? "flex" : "hidden"
-                  } md:flex`}
+                  className={`flex gap-3 mt-6 ${mobileStep === 2 ? "flex" : "hidden"
+                    } md:flex`}
                 >
                   <Button
                     onClick={openRazorpay}

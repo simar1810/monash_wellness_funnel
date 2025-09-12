@@ -9,12 +9,12 @@ import VideoTestimonials from "@/components/VideoTestimonials";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-[#eeece0] text-gray-900">
       <HeroSection />
       <DetailedTestimonials />
       <SocialProofSection />
       <PaymentBanner />
-      <BonusSection/>
+      <BonusSection />
       <VideoTestimonials />
       <ClientTestimonialsGrid />
       <ConsultationSection />

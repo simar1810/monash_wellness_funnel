@@ -60,6 +60,7 @@ export default function ClientTestimonialsGrid() {
                   alt="Google"
                   width={20}
                   height={20}
+                  className="text-blue-800 object-cntain"
                 />
               </div>
 
@@ -75,9 +76,9 @@ export default function ClientTestimonialsGrid() {
                 {review.text}
               </p>
 
-              <a className="text-blue-500 text-sm mt-2 cursor-pointer hover:underline">
+              {/* <a className="text-blue-500 text-sm mt-2 cursor-pointer hover:underline">
                 Read more
-              </a>
+              </a> */}
             </div>
           ))}
         </div>
