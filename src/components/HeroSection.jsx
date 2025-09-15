@@ -436,7 +436,7 @@ export default function HeroSection() {
               {/* Right: User Details */}
               <div
                 ref={formSectionRef}
-                className={`${mobileStep === 2 ? "block" : "hidden"
+                className={`${mobileStep === 1 ? "block" : "hidden"
                   } md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
               >
                 <h3 className="text-xl font-semibold text-slate-900 mb-6 flex items-center gap-2">
