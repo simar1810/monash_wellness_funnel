@@ -428,6 +428,7 @@ export default function PaymentBanner() {
               <div className="text-center relative z-10">
                 <Button
                   onClick={() => {
+                    console.log("Button clicked, opening modal");
                     setShowForm(true);
                     setMobileStep(1);
                   }}
@@ -484,8 +485,8 @@ export default function PaymentBanner() {
 
         {/* User Form Modal */}
         {showForm && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row gap-8 relative">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" style={{zIndex: 9999}}>
+            <div className="bg-white rounded-2xl p-4 md:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row gap-4 md:gap-8 relative">
               {/* Cross button at top right */}
               <button
                 onClick={() => {
@@ -497,28 +498,63 @@ export default function PaymentBanner() {
               >
                 &times;
               </button>
-              {/* Left: Payment Details */}
-              <div
-                className={`${mobileStep === 1 ? "block" : "hidden"
-                  } md:block flex-1 min-w-[300px] pr-8 relative`}
-              >
-                <Image
-                  alt=""
-                  src="/modalImage.png"
-                  className="min-h-full min-w-full"
-                  fill
-                />
+              
+              {/* Mobile step indicator */}
+              <div className="md:hidden flex items-center justify-center mb-4">
+                <div className="flex items-center space-x-2">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    mobileStep === 1 ? 'bg-[#008080] text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    1
+                  </div>
+                  <div className="w-8 h-1 bg-gray-200 rounded"></div>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    mobileStep === 2 ? 'bg-[#008080] text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    2
+                  </div>
+                </div>
               </div>
+
+              {/* Left: Payment Details */}
+              <div className={`${mobileStep === 1 ? "block" : "hidden"} md:block flex-1 min-w-[300px] pr-8 relative`}>
+                <div className="w-full h-64 md:min-h-[400px] relative">
+                  <Image
+                    alt=""
+                    src="/modalImage.png"
+                    className="min-h-full min-w-full object-cover"
+                    fill
+                  />
+                </div>
+                
+                {/* Mobile continue button */}
+                <div className="md:hidden mt-6">
+                  <Button
+                    onClick={() => setMobileStep(2)}
+                    className="w-full bg-gradient-to-r from-[#008080] to-[#00C8C8] hover:from-[#006666] hover:to-[#00A8A8] text-white"
+                  >
+                    Continue to Details
+                  </Button>
+                </div>
+              </div>
+              
               {/* Right: User Details */}
               <div
                 ref={formSectionRef}
-                className={`${mobileStep === 2 ? "block" : "hidden"
-                  } md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
+                className={`${mobileStep === 2 ? "block" : "hidden"} md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
               >
-                <h3 className="text-xl font-semibold text-slate-900 mb-6 flex items-center gap-2">
-                  <User className="w-5 h-5" />
-                  Your Details
-                </h3>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Your Details
+                  </h3>
+                  <button
+                    onClick={() => setMobileStep(1)}
+                    className="md:hidden text-sm text-[#008080] hover:text-[#006666] font-medium"
+                  >
+                    ← Back
+                  </button>
+                </div>
                 <div className="space-y-4">
                   <div>
                     <Label
