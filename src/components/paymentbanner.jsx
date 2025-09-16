@@ -290,7 +290,7 @@ export default function PaymentBanner() {
   const features = [
     {
       icon: <Star className="w-5 h-5" />,
-      text: "11 Days Detox Challenge Top Performer Bonuses",
+      text: "Top Performer Bonuses",
       highlight: "Exclusive rewards for top achievers",
     },
     {
@@ -355,7 +355,7 @@ export default function PaymentBanner() {
           </Badge>
 
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent leading-tight">
-            Join Live Young Fitness Community
+            Join Live Young Community
           </h1>
 
           <p className="text-xl md:text-2xl text-slate-600 mb-4 max-w-2xl mx-auto leading-relaxed">
