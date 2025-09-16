@@ -209,7 +209,7 @@ export default function PaymentBanner() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency || "INR",
-        name: "Monash Fitness",
+        name: "Monash Wellness",
         description: "Premium Fitness Community Membership",
         image: "/logo.png",
         order_id: order.id,

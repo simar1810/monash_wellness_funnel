@@ -20,7 +20,7 @@ const testimonials = [
     date: "",
     image: null,
     rating: 5,
-    text: "PCOS had made my life miserable — irregular cycles, weight gain, mood swings. But Monali changed everything for me! With her structured support, I’ve lost 10 kg, my periods are regular now, and migraines have vanished. She truly understands women’s issues and guides like a sister. Monash Wellness changed my life!",
+    text: "PCOS had made my life miserable — irregular cycles, weight gain, mood swings. But Monali changed everything for me! With her structured support, I’ve lost 10 kg, my periods are regular now, and migraines have vanished. She truly understands women’s issues and guides like a sister. Live Young Wellness changed my life!",
   },
 ];
 

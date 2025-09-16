@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -27,6 +28,15 @@ export default function ConsultationSection() {
   }, []);
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-[var(--background)] text-center">
+      <div className="max-w-screen-xl mx-auto px-4 md:px-6 flex justify-center mb-15" >
+        <Image
+          src="/collage.jpg"
+          alt="Live Young Wellness"
+          width={1000}
+          height={1000}
+          className="w-full h-full object-contain"
+        />
+      </div>
       <div className="max-w-screen-xl mx-auto px-4 md:px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[var(--primary-foreground)]">
           Questions?
@@ -55,7 +65,7 @@ export default function ConsultationSection() {
         </div>
 
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[var(--primary-foreground)]">
-          Start Your Health Journey With Monash Wellness
+          Start Your Health Journey With Live Young Wellness
         </h2>
         <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-black">
           Our System is so Easy, Sustainable and Doable that it becomes part of
