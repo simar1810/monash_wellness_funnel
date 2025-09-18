@@ -162,6 +162,25 @@ export default function PaymentBanner() {
       const data = await verifyRes.json();
 
       if (data.success) {
+        // Call registration API after successful payment
+        try {
+          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/register-user`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: formData.name,
+              email: formData.email,
+              phoneNumber: formData.phoneNumber,
+              frontEndClient: "Monash",
+            }),
+          });
+        } catch (registrationError) {
+          console.error("Registration API Error:", registrationError);
+          // Continue with success flow even if registration fails
+        }
+
         alert(
           "🎉 Payment Successful! Welcome to Monash Fitness Community! Check your email/phone for access details."
         );
