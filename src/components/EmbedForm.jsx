@@ -1,4 +1,3 @@
-// app/components/EmbeddedForm.tsx
 "use client"
 import { useEffect } from "react"
 
@@ -17,9 +16,10 @@ export default function EmbeddedForm() {
   return (
     <iframe
       src="https://brand.monashwellness.com/widget/form/La6p1He5RZmxFES5Kn0e"
+      className="w-full"
       style={{
+        height: "0%",
         width: "100%",
-        height: "100%",
         border: "none",
         borderRadius: "3px",
       }}
