@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { CheckCircle, Loader2, Zap, User } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import EmbeddedForm from "./EmbedForm";
 
 export default function HeroSection() {
   const [formData, setFormData] = useState({
@@ -348,82 +349,44 @@ export default function HeroSection() {
         </div>
 
         {/* Video + Form */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start place-items-center mx-auto max-w-5xl">
-          <div className="relative w-full aspect-video min-h-[315px] bg-[var(--muted)] rounded-lg overflow-hidden">
-            <iframe
-              src="https://drive.google.com/file/d/1np6w8X-IyOpApr8G58zBl1cUolIW7xc4/preview"
-              className="absolute top-0 left-0 w-full h-full"
-            ></iframe>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start place-items-center max-w-6xl mx-auto">
+            <div className="flex flex-col w-full gap-4">
+              <div className="relative flex flex-col w-full aspect-video min-h-[450px] bg-[var(--muted)] rounded-lg overflow-hidden">
+              <iframe
+                src="https://drive.google.com/file/d/1np6w8X-IyOpApr8G58zBl1cUolIW7xc4/preview"
+                className="absolute top-0 left-0 w-full h-full"
+              ></iframe>
+            </div>
 
-          <div className="w-full bg-[var(--card)] p-6 md:p-8 rounded-lg shadow-lg border border-[var(--border)] text-left">
-            <h2 className="text-xl md:text-2xl font-bold text-[var(--primary-foreground)] mb-6 text-center md:text-left">
-              Kindly fill the form to grab free personalised one to one consultation
-            </h2>
-            <form className="grid gap-4" onSubmit={handleSubmit}>
-              <Input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your Full Name"
-                className="w-full"
-              />
-              <Input
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                className="w-full"
-              />
-              <div className="flex items-center border border-[var(--border)] rounded-md overflow-hidden">
-                <span className="px-3 text-[var(--secondary)]">+91</span>
-                <Input
-                  name="phoneNumber"
-                  type="tel"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  placeholder="Enter your phone number"
-                  className="flex-1 border-l border-[var(--border)] focus:outline-none"
-                />
-              </div>
-              <div className="relative w-full">
-                <Button
-                  type="submit"
-                  className="w-full bg-[var(--secondary)] hover:bg-[var(--accent)] text-[var(--accent-foreground)] px-6 py-3 relative rounded-md text-lg font-semibold"
+            <div className="bg-[var(--card)] rounded-xl border border-[var(--border)] p-4 sm:px-8 sm:py-10 mt-2">
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-8 text-left">
+                {[
+                  "5+ Years of Experience",
+                  "5000+ Happy Client Results",
+                  "Dedicated Dietitians",
+                  "No Bounce Back",
+                ].map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-start gap-2"
                 >
-                  Buy Now
-                </Button>
-                <div className="px-3 absolute -top-2 -right-2 py-0.5 text-xs font-bold text-white bg-red-500 rounded-full shadow-md">
-                  Limited time offer
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div className="bg-[var(--card)] rounded-xl border border-[var(--border)] p-6 max-w-6xl mx-auto mt-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            {[
-              "5+ Years of Experience",
-              "5000+ Happy Client Results",
-              "Dedicated Dietitians",
-              "No Bounce Back",
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-center gap-2"
-              >
                 <div className="w-6 h-6 bg-[var(--secondary)] rounded-full flex items-center justify-center">
                   <CheckCircle className="w-4 h-4 text-[var(--accent-foreground)]" />
                 </div>
-                <span className="text-sm sm:text-base font-medium text-black">
+                <span className="text-xs sm:text-sm md:text-base font-medium text-black">
                   {item}
                 </span>
+                </div>))}
               </div>
-            ))}
+            </div>
           </div>
+
+        <div className="w-full bg-[var(--card)] max-h-[800px] md:max-h-[750px] pt-6 md:px-6 md:pt-8 rounded-lg shadow-lg border border-[var(--border)] text-left">
+          <h2 className="text-lg md:text-2xl font-bold text-[var(--primary-foreground)] text-center md:text-left px-10">Kindly fill the form to grab your free personalised one-to-one consultation</h2>
+          <EmbeddedForm />
         </div>
+      </div>
+
 
         {/* Payment Modal */}
         {showPaymentModal && (
