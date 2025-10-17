@@ -8,10 +8,10 @@ const PrivacyPolicy = () => {
       <div className="max-w-5xl mx-auto bg-white shadow-md rounded-2xl p-6 sm:p-10 lg:p-12 relative z-10 border border-gray-100">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="w-full md:w-xs pb-1 mx-auto text-2xl sm:text-4xl font-bold text-[#3D3D3D] mb-3 border-b-4 border-[#009048]">
+          <h1 className="w-full  pb-1 mx-auto text-2xl sm:text-4xl font-bold text-[#3D3D3D] mb-3 border-b-4 border-[#009048]">
             Privacy Policy
           </h1>
-          <p className="text-[#494848] text-sm sm:text-base">
+          <p className="text-[#494848] text-sm sm:text-base italic">
             Last updated: April 19, 2024
           </p>
         </div>

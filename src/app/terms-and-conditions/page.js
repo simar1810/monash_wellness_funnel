@@ -6,7 +6,7 @@ const page = () => {
   return (
     <section className="bg-[#FAFAFA] min-h-screen py-12 px-6 sm:px-10 lg:px-20 xl:px-32 overflow-hidden">
       <div className="max-w-5xl mx-auto bg-white shadow-md rounded-2xl p-8 sm:p-12 space-y-6 text-gray-700 leading-relaxed">
-        <h2 className="w-full md:w-sm pb-1 mx-auto text-2xl sm:text-4xl font-bold text-[#3D3D3D] mb-3 md:mb-5 border-b-4 border-[#009048] text-center">
+        <h2 className="w-full pb-1 mx-auto text-2xl sm:text-4xl font-bold text-[#3D3D3D] mb-3 md:mb-5 border-b-4 border-[#009048] text-center">
           Terms and Conditions
         </h2>
 
