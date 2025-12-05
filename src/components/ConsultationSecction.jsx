@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import MockupComponent from "./MockupComponent";
 
 export default function ConsultationSection() {
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function ConsultationSection() {
           className="w-full h-full object-contain"
         />
       </div>
+      <MockupComponent/>
       <div className="max-w-screen-xl mx-auto px-4 md:px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[var(--primary-foreground)]">
           Questions?
@@ -91,7 +93,7 @@ export default function ConsultationSection() {
               }
             }}
           >
-            Start Your Personalized Health Plan Now
+            Join Now For Free
           </button>
         </div>
       </div>
