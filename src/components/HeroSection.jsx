@@ -318,10 +318,10 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="w-full py-10 md:py-16 bg-[#eeece0] text-center">
-      <div className="max-w-screen-xl left mx-auto px-4 md:px-6">
+    <section className="w-full py-14 lg:py-16 bg-[var(--accent)] h-screen flex flex-col lg:flex-row items-center justify-center text-center xl:px-20 2xl:px-0  xl:gap-0">
+      {/* <div className="max-w-screen-xl left mx-auto px-4 md:px-6"> */}
         {/* Logo */}
-        <div className="flex md:justify-start justify-center md:-left-10 md:-ml-35 items-center mb-7">
+        {/* <div className="flex md:justify-start justify-center md:-left-10 md:-ml-35 items-center mb-7">
           <Image
             src="/Monash_Wellness_logo-removebg-preview.png"
             alt="Logo"
@@ -329,27 +329,27 @@ export default function HeroSection() {
             height={200}
             className="h-20 w-20 md:h-40 md:w-40 rounded-lg"
           />
-        </div>
+        </div> */}
 
         {/* Top Banner */}
-        <div className="md:-mt-45">
+        {/* <div className="md:-mt-45">
           <div className="bg-[var(--secondary)] text-[var(--secondary-foreground)] text-center p-4 rounded-2xl mb-8 max-w-4xl mx-auto">
             <p className="text-xl md:text-2xl font-semibold">
               One decision. 11 days. A lighter, fresher YOU
             </p>
-          </div>
+          </div> */}
 
           {/* Heading */}
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--primary-foreground)] mb-8 leading-tight">
+          {/* <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--primary-foreground)] mb-8 leading-tight">
             See the glow, feel the difference in just 11 days - Transform with our
             ₹499 Detox Plan.
-          </h1>
+          </h1> */}
 
           {/* Highlight Buttons */}
-        </div>
+        {/* </div> */}
 
         {/* Video + Form */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start place-items-center max-w-6xl mx-auto">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start place-items-center max-w-6xl mx-auto">
             <div className="flex flex-col w-full gap-4">
               <div className="relative flex flex-col w-full aspect-video min-h-[450px] bg-[var(--muted)] rounded-lg overflow-hidden">
               <iframe
@@ -385,15 +385,15 @@ export default function HeroSection() {
           <h2 className="text-lg md:text-2xl font-bold text-[var(--primary-foreground)] text-center md:text-left px-10">Kindly fill the form to grab your free personalised one-to-one consultation</h2>
           <EmbeddedForm />
         </div>
-      </div>
+      </div> */}
 
 
         {/* Payment Modal */}
-        {showPaymentModal && (
+        {/* {showPaymentModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" style={{zIndex: 9999}}>
-            <div className="bg-white rounded-2xl p-4 md:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row gap-4 md:gap-8 relative">
+            <div className="bg-white rounded-2xl p-4 md:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row gap-4 md:gap-8 relative"> */}
               {/* Cross button at top right */}
-              <button
+              {/* <button
                 onClick={() => {
                   setShowPaymentModal(false);
                   setMobileStep(1);
@@ -402,10 +402,10 @@ export default function HeroSection() {
                 aria-label="Close"
               >
                 &times;
-              </button>
+              </button> */}
               
               {/* Mobile step indicator */}
-              <div className="md:hidden flex items-center justify-center mb-4">
+              {/* <div className="md:hidden flex items-center justify-center mb-4">
                 <div className="flex items-center space-x-2">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                     mobileStep === 1 ? 'bg-[#008080] text-white' : 'bg-gray-200 text-gray-600'
@@ -419,10 +419,10 @@ export default function HeroSection() {
                     2
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Left: Payment Details */}
-              <div className={`${mobileStep === 1 ? "block" : "hidden"} md:block flex-1 min-w-[300px] pr-8 relative`}>
+              {/* <div className={`${mobileStep === 1 ? "block" : "hidden"} md:block flex-1 min-w-[300px] pr-8 relative`}>
                 <div className="w-full h-64 md:min-h-[400px] relative">
                   <Image
                     alt=""
@@ -430,10 +430,10 @@ export default function HeroSection() {
                     className="min-h-full min-w-full object-cover"
                     fill
                   />
-                </div>
+                </div> */}
                 
                 {/* Mobile continue button */}
-                <div className="md:hidden mt-6">
+                {/* <div className="md:hidden mt-6">
                   <Button
                     onClick={() => setMobileStep(2)}
                     className="w-full bg-gradient-to-r from-[#008080] to-[#00C8C8] hover:from-[#006666] hover:to-[#00A8A8] text-white"
@@ -442,9 +442,9 @@ export default function HeroSection() {
                   </Button>
                 </div>
               </div>
-              
+               */}
               {/* Right: User Details */}
-              <div
+              {/* <div
                 ref={formSectionRef}
                 className={`${mobileStep === 2 ? "block" : "hidden"} md:block flex-1 min-w-[300px] md:border-l border-gray-200 md:pl-8 pl-0`}
               >
@@ -550,7 +550,16 @@ export default function HeroSection() {
             </div>
           </div>
         )}
+      </div> */}
+     <div className="flex lg:w-1/3 xl:w-[600px] 2xl:w-1/3 flex-col items-center justify-center lg:items-start lg:justify-start mt-10  lg:mt-0 gap-4">
+        <h4 className="text-sm md:text-4xl lg:text-lg xl:text-2xl 2xl:text-3xl text-white text-center lg:text-left font-bold italic">Still looking to get fitness? <br /><span className="text-lg md:text-4xl lg:mt-0 lg:text-xl xl:text-4xl 2xl:text-4xl">It's not you. It’s the system you were following</span></h4>
+
+        <p className="text-gray-100 font-medium text-lg md:text-3xl px-6 lg:px-0 lg:text-left lg:text-lg xl:text-2xl 2xl:text-2xl mt-4">The <span className="text-white font-bold">Monash Program</span> for Wellness adapts to your routine, stress, and lifestyle — so progress feels natural, not overwhelming.</p>
+
+        <button className=" mt-5 hidden lg:block bg-gray-200 text-black cursor-pointer font-semibold text-lg ring-1 px-4 py-2 rounded-xl">Join Now For Free</button>
       </div>
+      <Image src="/mockup.png" alt="mockup" width={500} height={500} className=" lg:w-[48vw] xl:w-[46vw] 2xl:w-[44vw]" />
+      <button className="w-1/2 block lg:hidden bg-white text-black cursor-pointer font-semibold text-lg ring-1 px-4 py-2 rounded-xl">Join Now For Free</button>
     </section>
   );
 }
