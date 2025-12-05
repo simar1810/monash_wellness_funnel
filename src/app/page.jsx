@@ -14,7 +14,7 @@ export default function HomePage() {
       <HeroSection />
       <DetailedTestimonials />
       <SocialProofSection />
-      <PaymentBanner />
+      {/* <PaymentBanner /> */}
       <BonusSection />
       <VideoTestimonials />
       <ClientTestimonialsGrid />
