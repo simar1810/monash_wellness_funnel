@@ -171,7 +171,7 @@ export default function DetailedTestimonials() {
               }
             }}
           >
-            Book your Consultation Now
+            Join Now For Free
           </Button>
         </div>
       </div>
