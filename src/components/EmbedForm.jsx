@@ -4,7 +4,7 @@ import { useEffect } from "react"
 export default function EmbeddedForm() {
   useEffect(() => {
     const script = document.createElement("script")
-    script.src = "https://brand.monashwellness.com/js/form_embed.js"
+    script.src = "https://transform.monashwellness.com/js/form_embed.js"
     script.async = true
     document.body.appendChild(script)
 
@@ -15,7 +15,7 @@ export default function EmbeddedForm() {
 
   return (
     <iframe
-      src="https://brand.monashwellness.com/widget/form/La6p1He5RZmxFES5Kn0e"
+      src="https://transform.monashwellness.com/widget/form/La6p1He5RZmxFES5Kn0e"
       className="w-full"
       style={{
         height: "0%",
