@@ -1,5 +1,5 @@
-import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const MockupComponent = () => {
   return (
@@ -11,7 +11,7 @@ const MockupComponent = () => {
           <Image src="/playstore.png" alt="playstore" width={1000} height={1000} className="cursor-pointer w-30 xl:w-48 md:w-42"/>
           <Image src="/appstore.png" alt="playstore" width={1000} height={1000} className="cursor-pointer w-30 xl:w-48 md:w-42"/>
         </div> */}
-        <button className="w-1/2 hover:bg-gray-200 text-black cursor-pointer font-semibold text-lg bg-white ring-1 px-4 py-2 rounded-xl">Join Now For Free</button>
+        <Link href="/app" className="w-1/2 hover:bg-gray-200 text-black cursor-pointer font-semibold text-lg bg-white ring-1 px-4 py-2 rounded-xl text-center">Join Now For Free</Link>
       </div>
       <Image src="/HWD_Mockup.png" alt="mockup" width={500} height={500} className=" lg:w-[38vw] xl:w-[35vw]" />
     </div>

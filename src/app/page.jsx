@@ -3,8 +3,8 @@ import ClientTestimonialsGrid from "@/components/ClientTestimonials";
 import ConsultationSection from "@/components/ConsultationSecction";
 import DetailedTestimonials from "@/components/DetailedTestimonals";
 // import EmbeddedForm from "@/components/EmbedForm";
+import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
-import PaymentBanner from "@/components/paymentbanner";
 import SocialProofSection from "@/components/SocialProof";
 import VideoTestimonials from "@/components/VideoTestimonials";
 
@@ -20,6 +20,7 @@ export default function HomePage() {
       <ClientTestimonialsGrid />
       <ConsultationSection />
       {/* <EmbeddedForm /> */}
+      <Footer />
     </div>
   );
 }

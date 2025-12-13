@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const testimonials = [
   { name: "IMG-20250817-WA0005", image: "/photos/IMG-20250817-WA0005.jpg" },
@@ -154,25 +155,13 @@ export default function DetailedTestimonials() {
 
         {/* CTA Button */}
         <div className="text-center mt-12">
-          <Button
-            className="bg-black hover:bg-gray-800 text-white px-8 py-6 rounded-xl text-lg font-semibold shadow-lg transition"
-            onClick={() => {
-              const banner = document.getElementById('payment-banner');
-              if (banner) {
-                banner.scrollIntoView({ behavior: 'smooth' });
-                // Try to open the payment modal after scrolling
-                setTimeout(() => {
-                  // Find the Get Started button inside the banner and click it
-                  const payBtn = banner.querySelector('button');
-                  if (payBtn) {
-                    payBtn.click();
-                  }
-                }, 500);
-              }
-            }}
-          >
-            Join Now For Free
-          </Button>
+          <Link href="/app">
+            <Button
+              className="bg-black hover:bg-gray-800 text-white px-8 py-6 rounded-xl text-lg font-semibold shadow-lg transition"
+            >
+              Join Now For Free
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

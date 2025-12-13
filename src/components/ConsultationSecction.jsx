@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -74,24 +73,12 @@ export default function ConsultationSection() {
         </p>
 
         <div className="text-center mb-12">
-          <button
-            type="button"
+          <Link
+            href="/app"
             className="block w-full sm:inline-block sm:w-auto bg-black hover:bg-gray-800 text-[var(--accent-foreground)] px-6 sm:px-8 py-4 rounded-md text-base sm:text-lg font-semibold shadow-lg text-center"
-            onClick={() => {
-              const banner = document.getElementById('payment-banner');
-              if (banner) {
-                banner.scrollIntoView({ behavior: 'smooth' });
-                setTimeout(() => {
-                  const payBtn = banner.querySelector('button');
-                  if (payBtn) {
-                    payBtn.click();
-                  }
-                }, 500);
-              }
-            }}
           >
              Join Now For Free
-          </button>
+          </Link>
         </div>
       </div>
     </section>
