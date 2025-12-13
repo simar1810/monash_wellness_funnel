@@ -558,7 +558,7 @@ export default function HeroSection() {
 
         <button className=" mt-5 hidden lg:block bg-gray-200 text-black cursor-pointer font-semibold text-lg ring-1 px-4 py-2 rounded-xl">Join Now For Free</button>
       </div>
-      <Image src="/mockup.png" alt="mockup" width={500} height={500} className=" lg:w-[48vw] xl:w-[46vw] 2xl:w-[44vw]" />
+      <Image src="/HWD_Mockup.png" alt="mockup" width={500} height={500} className=" lg:w-[48vw] xl:w-[46vw] 2xl:w-[44vw]" />
       <button className="w-1/2 block lg:hidden bg-white text-black cursor-pointer font-semibold text-lg ring-1 px-4 py-2 rounded-xl">Join Now For Free</button>
     </section>
   );
