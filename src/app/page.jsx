@@ -1,5 +1,6 @@
 import BonusSection from "@/components/BonusSection";
 import ClientTestimonialsGrid from "@/components/ClientTestimonials";
+import ConsultationImageSection from "@/components/ConsultationImageSection";
 import ConsultationSection from "@/components/ConsultationSecction";
 import DetailedTestimonials from "@/components/DetailedTestimonals";
 // import EmbeddedForm from "@/components/EmbedForm";
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#eeece0] text-gray-900">
       <HeroSection />
+      <ConsultationImageSection />
       <DetailedTestimonials />
       <SocialProofSection />
       {/* <PaymentBanner /> */}
