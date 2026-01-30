@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function WhatsAppButton() {
   // Placeholder values - you can edit these later
-  const phoneNumber = "918104067986"; // Replace with your WhatsApp number (with country code, no + or spaces)
+  const phoneNumber = "919373833563"; // Replace with your WhatsApp number (with country code, no + or spaces)
   const defaultMessage = "I want to know more about the program!"; // Replace with your default message
 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(defaultMessage)}`;
